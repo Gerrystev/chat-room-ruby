@@ -1,0 +1,51 @@
+.container {
+    background-color: rgb(32, 35, 46);
+    height: 90vh;
+}
+
+.bright {
+    color: white;
+    font-weight: bold;
+    background-color: black;
+}
+
+.listChatRooms {
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+.chatRoomCard {
+    width: 100%;
+}
+
+.chatRoomHeader {
+    width: 100%;
+    background-color: yellow;
+}
+
+.chatRoomContent {
+    width: 100%;
+    max-height: 77vh;
+    background-color: red;
+    overflow-y: auto;
+}
+
+.chatRoomMessageContainer {
+    background-color: lightblue;
+}
+
+.chatRoomMessageForm {
+    width: 90%;
+    padding: 1rem;
+}
+
+.chatRoomMessageGrid {
+    width: 100%;
+}
+
+.chatMessage {
+    background-color: white;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+}
