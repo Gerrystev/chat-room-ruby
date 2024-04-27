@@ -15,7 +15,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { PlusOne } from '@mui/icons-material';
 
-import ChatRoomCard from './ChatRoomCard';
+import ChatRoomList from './ChatRoomList';
 import ChatRoomWindow from './ChatRoomWindow';
 
 const Chat = (props) => {
@@ -47,26 +47,7 @@ const Chat = (props) => {
       </AppBar>
       <Grid container marginTop={1} className={style.container}>
         <Grid item xs={3} direction="column" className={style.listChatRooms}>
-          {/* Add button */}
-          <Card style={{ width: "100%" }}>
-            <CardContent>
-              <Typography color="text.secondary" textAlign="center" component="div">
-                  Create new room +
-              </Typography>
-            </CardContent>
-          </Card>
-          <ChatRoomCard name={"titling"}/>
-          <ChatRoomCard name={"titling"}/>
-          <ChatRoomCard name={"titling"}/>
-          <ChatRoomCard name={"titling"}/>
-          <ChatRoomCard name={"titling"}/>
-          <ChatRoomCard name={"titling"}/>
-          <ChatRoomCard name={"titling"}/>
-          <ChatRoomCard name={"titling"}/>
-          <ChatRoomCard name={"titling"}/>
-          <ChatRoomCard name={"titling"}/>
-          <ChatRoomCard name={"titling"}/>
-          <ChatRoomCard name={"titling"}/>
+          <ChatRoomList/>
         </Grid>
         {/* Add button */}
         <ChatRoomWindow/>
