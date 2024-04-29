@@ -1,13 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import CardMedia from '@mui/material/CardMedia';
-import { styled } from '@mui/material/styles';
-import { Grid, FormControl, Input, Paper, Button } from '@mui/material';
+import { Grid, Input, Button } from '@mui/material';
 import * as ActionCable from 'actioncable';
 
 import SendIcon from '@mui/icons-material/Send';
@@ -95,7 +89,9 @@ export default function ChatRoomWindow(props) {
     return (
         <Grid container item xs={9} direction="column">
             <Grid container item className={style.chatRoomHeader} xs={1}>
-                <h2>{chatRoomName}</h2>
+                <Typography variant="h4" component="h2" marginTop="10px" marginLeft="10px" fontWeight="bold" color="white">
+                    {chatRoomName}
+                </Typography>
             </Grid>
             <Grid item className={style.chatRoomContent} xs={10} textAlign="right">
                 {mapMessages()}

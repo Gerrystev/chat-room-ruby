@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  get 'chat', to: 'chat#index'
+  # get 'chat', to: 'chat#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  root "chat#index"
 
   # REST API namespace
   namespace :api do
