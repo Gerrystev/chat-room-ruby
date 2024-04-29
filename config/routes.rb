@@ -9,4 +9,17 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  # REST API namespace
+  namespace :api do
+    namespace :v1 do
+      # Chatroom api
+      post 'chatroom', to: 'chatroom#create_chatroom'
+      get 'chatroom', to: 'chatroom#list_chatroom'
+      get 'chatroom:id', to: 'chatroom#get_chatroom'
+      # Chatroom messages api
+      get 'chatroom/:id/message', to: 'chatroom#list_message'
+      post 'chatroom/:id/message', to: 'chatroom#send_message'
+    end
+  end
 end
