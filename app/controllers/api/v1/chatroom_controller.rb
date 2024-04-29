@@ -1,13 +1,13 @@
 class Api::V1::ChatroomController < ApplicationController
-    protect_from_forgery with: :null_session
-    # skip_before_action :verify_authenticity_token
+    skip_before_action :verify_authenticity_token
 
     def create_chatroom
-        @chatroom = Chatroom.new(chatroom_params)
+        @chatroom = Chatroom.new(name: params[:name])
+        puts @chatroom
         if @chatroom.save 
             render json: @chatroom
         else
-            render error: { error: 'Unable to create user' }, status: 400
+            render error: { error: 'Unable to create chatroom' }, status: 400
         end
     end
 
@@ -18,13 +18,13 @@ class Api::V1::ChatroomController < ApplicationController
 
     def get_chatroom
         @chatroom = Chatroom.find(params[:id])
-        render json @chatroom
+        render json: @chatroom
     end
 
     def list_message
         params_id = params[:id]
         @messages = Message.where("chatroom_id = #{params_id}")
-        render json @messages
+        render json: @messages
     end
 
     def send_message
@@ -32,11 +32,13 @@ class Api::V1::ChatroomController < ApplicationController
         content = params[:content]
         @message = Message.create chatroom_id: params_id,
                                   content: content
-        if @message.save 
-            render json: @message
-        else
-            render error: { error: 'Unable to send message' }, status: 400
-        end
+        # if @message.save 
+        #     render json: @message
+        # else
+        #     render error: { error: 'Unable to send message' }, status: 400
+        # end
+        ActionCable.server.broadcast "room_#{params_id}", content
+        render json: @message
     end
 
     private

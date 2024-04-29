@@ -8,38 +8,104 @@ import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
 import { styled } from '@mui/material/styles';
 import { Grid, FormControl, Input, Paper, Button } from '@mui/material';
+import * as ActionCable from 'actioncable';
 
 import SendIcon from '@mui/icons-material/Send';
 
 import * as style from './Chat.module.css';
 
 export default function ChatRoomWindow(props) {
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-      }));
+    const [chatRoomName, setChatRoomName] = React.useState();
+    const [listMessage, setListMessage] = React.useState([]);
+    const [messageContent, setMessageContent] = React.useState('');
+    const [subscription, setSubscription] = React.useState();
+    const cable = ActionCable.createConsumer('ws://localhost:3000/cable');
+
+    const createSubscription = () => {
+        if (subscription) {
+            subscription.unsubscribe();
+        }
+        const subs = cable.subscriptions.create(
+            { channel: 'ChatChannel', room: props.chatRoomId },
+            { received: message => handleReceivedMessage() }
+        );
+        setSubscription(subs);
+    }
+
+    const handleChange = (event) => {
+        setMessageContent(event.target.value);
+    };
+
+    const handleReceivedMessage = async () => {
+        await getListMessage();
+    }
+
+    const mapMessages = () => {
+        return listMessage.map(c => {
+            return (
+                <div className={style.chatMessage} key={c.id}>{c.content}</div>
+            )
+        });
+    }
+
+    const sendMessage = async () => {
+        if (!props.chatRoomId) return
+        try {
+            const form = new FormData()
+            form.append('content', messageContent);
+            await fetch(`/api/v1/chatroom/${props.chatRoomId}/message`, {
+              method: 'POST',
+              body: form
+            });
+        } catch (e) {
+            // console.error(e);
+        }
+    }
+
+    const getListMessage = async () => {
+        if (!props.chatRoomId) return
+        try {
+            const res = await fetch(`/api/v1/chatroom/${props.chatRoomId}/message`);
+            const messages = await res.json();
+            setListMessage(messages);
+        } catch (e) {
+            // console.error(e)
+        }
+    }
+
+    const getChatRoom = async () => {
+        if (!props.chatRoomId) return
+        try {
+            const res = await fetch(`/api/v1/chatroom/${props.chatRoomId}`);
+            const chatroom = await res.json();
+            setChatRoomName(chatroom.name);
+        } catch (e) {
+            // console.error(e)
+        }
+    }
 
     React.useEffect(() => {
-        
-    }, []);
+        if (props.chatRoomId) {
+            getChatRoom();
+            getListMessage();
+            createSubscription();
+        }
+    }, [props.chatRoomId]);
 
     return (
         <Grid container item xs={9} direction="column">
             <Grid container item className={style.chatRoomHeader} xs={1}>
-                
+                <h2>{chatRoomName}</h2>
             </Grid>
-            <Grid item className={style.chatRoomContent} direction="column" xs={10} textAlign="right">
-                <div className={style.chatMessage}>teteet</div>
+            <Grid item className={style.chatRoomContent} xs={10} textAlign="right">
+                {mapMessages()}
             </Grid>
             <Grid container item className={style.chatRoomMessageContainer} xs={1}>
                 <Grid item xs={11} padding="10px" textAlign="center">
-                    <Input name='message' fullWidth={true} className={style.chatRoomMessageGrid}></Input>
+                    <Input name='message' fullWidth={true} value={messageContent} onChange={handleChange}  className={style.chatRoomMessageGrid}></Input>
                 </Grid>
                 <Grid item xs={1} textAlign="center" paddingTop="1rem">
-                    <Button variant="contained" endIcon={<SendIcon />}>Send</Button>
+                    <Button variant="contained" onClick={sendMessage} endIcon={<SendIcon />}>Send</Button>
                 </Grid>
             </Grid>
         </Grid>
@@ -47,5 +113,5 @@ export default function ChatRoomWindow(props) {
 }
 
 ChatRoomWindow.propTypes = {
-    name: PropTypes.string.isRequired, // this is passed from the Rails view
+    chatRoomId: PropTypes.number, // this is passed from the Rails view
 };
