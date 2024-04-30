@@ -14,7 +14,8 @@ export default function ChatRoomWindow(props) {
     const [messageContent, setMessageContent] = React.useState('');
     const [subscription, setSubscription] = React.useState();
 
-    const cableUrl = process.env.WEBSOCKET_URL || 'ws://localhost:3000/cable';
+    // const cableUrl = process.env.WEBSOCKET_URL || 'ws://localhost:3000/cable';
+    const cableUrl = "https://chat-room-ruby-production.up.railway.app/cable";
     const cable = ActionCable.createConsumer(cableUrl);
 
     const createSubscription = () => {
