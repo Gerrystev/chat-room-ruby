@@ -30,6 +30,8 @@ RUN npm install
 # Entrypoint prepares the database.
 # ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
+RUN ./bin/rails db:migrate
+
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 8080
 CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
