@@ -31,5 +31,5 @@ RUN npm install
 # ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
-CMD ["./bin/rails", "server"]
+EXPOSE 7455
+CMD ["./bin/rails", "server", "-p", "7455", "-b", "0.0.0.0"]
