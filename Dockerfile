@@ -7,12 +7,6 @@ FROM registry.docker.com/library/ruby:$RUBY_VERSION as base
 # Rails app lives here
 WORKDIR /rails
 
-# Set production environment
-ENV RAILS_ENV="production" \
-    BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
-
 # Copy application code
 COPY . .
 
