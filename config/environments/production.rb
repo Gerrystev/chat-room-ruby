@@ -88,12 +88,8 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Enable DNS rebinding protection and other `Host` header attacks.
-  config.hosts = [
-    IPAddr.new("0.0.0.0/0"),        # All IPv4 addresses.
-    IPAddr.new("::/0"),     
-    "localhost",                    # The localhost reserved domain.
-    ENV["RAILS_ALLOWED_HOSTS"]
-  ]
+  config.hosts << "chat-room-ruby-production.up.railway.app"
+  
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end
