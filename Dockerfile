@@ -21,11 +21,11 @@ RUN bundle install
 # Install dependencies
 RUN npm install
 
-# Precompile bootsnap code for faster boot times
-RUN bundle exec bootsnap precompile app/ lib/
+# # Precompile bootsnap code for faster boot times
+# RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
+# # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
+# RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
 # Run and own only the runtime files as a non-root user for security
 USER rails:rails
