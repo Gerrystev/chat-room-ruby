@@ -13,7 +13,9 @@ export default function ChatRoomWindow(props) {
     const [listMessage, setListMessage] = React.useState([]);
     const [messageContent, setMessageContent] = React.useState('');
     const [subscription, setSubscription] = React.useState();
-    const cable = ActionCable.createConsumer('ws://localhost:3000/cable');
+
+    const cableUrl = process.env.WEBSOCKET_URL || 'ws://localhost:3000/cable';
+    const cable = ActionCable.createConsumer(cableUrl);
 
     const createSubscription = () => {
         if (subscription) {
