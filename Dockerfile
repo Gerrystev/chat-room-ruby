@@ -18,13 +18,11 @@ COPY . .
 
 # Install packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libpq-dev libvips pkg-config npm nodejs yarn
+    apt-get install --no-install-recommends -y build-essential git libpq-dev libvips postgresql-client pkg-config npm nodejs yarn
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
-    bundle exec bootsnap precompile --gemfile
+RUN bundle install
 
 # Install dependencies
 RUN npm install
@@ -36,8 +34,6 @@ RUN bundle exec bootsnap precompile app/ lib/
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 # Run and own only the runtime files as a non-root user for security
-RUN useradd rails --create-home --shell /bin/bash && \
-    chown -R rails:rails db log storage tmp
 USER rails:rails
 
 # Entrypoint prepares the database.
