@@ -74,7 +74,3 @@ gem "shakapacker", "= 7.2"
 gem "react_on_rails", "= 14.0"
 
 gem 'devise'
-
-gem 'execjs'
-
-gem 'therubyracer'
