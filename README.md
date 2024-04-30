@@ -5,20 +5,11 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Setup
+1. Use ruby 3.3.1
+2. Setup your postgres
+3. Change env variable at .env.example
+4. Run `bundle install`
+5. Run `npm install`
+6. Run `yarn`
+7. Run `bin/dev`
