@@ -12,13 +12,14 @@ COPY . .
 
 # Install packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libpq-dev libvips postgresql-client pkg-config npm nodejs yarn
+    apt-get install --no-install-recommends -y build-essential git libpq-dev libvips postgresql-client pkg-config npm nodejs
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
 
 # Install dependencies
+RUN npm install -g yarn
 RUN npm install
 RUN yarn install
 
